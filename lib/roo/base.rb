@@ -462,7 +462,11 @@ class Roo::Base
   def find_basename(filename)
     if uri?(filename)
       require "uri"
-      uri = URI.parse filename
+      if URI.present?
+        uri = URI.parse filename
+      else
+        uri = CGI::parse filename
+      end
       File.basename(uri.path)
     elsif !is_stream?(filename)
       File.basename(filename)
